@@ -1,16 +1,22 @@
 # Step-by-Step Guide to Add Windows Server to ELK #
 
+
 1. Install Winlogbeat on Windows Server
 	Visit the official Elastic website:
 	https://www.elastic.co/downloads/beats/winlogbeat
       Download and extract the ZIP file to C:\Program Files\Winlogbeat.
 
+
 2. Open PowerShell as Administrator
 	cd "C:\Program Files\Winlogbeat"
+
+
 
 3. Configure Winlogbeat
 	Edit the winlogbeat.yml Configuration File
 	notepad C:\Program Files\Winlogbeat\winlogbeat.yml
+
+
 
 4. Modify the Output Section
 	If sending logs directly to Elasticsearch
@@ -23,11 +29,15 @@
 		hosts: ["<ELK-SERVER-IP>:5044"]
 
 
+
+
 5. Enable Windows Event Logs (Optional)
 		winlogbeat.event_logs:
   		- name: Application
   		- name: Security
   		- name: System
+
+
 
 6. Install and Start the Winlogbeat Service
 	Install Winlogbeat as a Windows Service
@@ -37,9 +47,13 @@
 	Verify the Service Status
 		Get-Service winlogbeat
 
+
+
 7. Configure Logstash to Process Logs (If Used)
 	SSH into your ELK server and create a config file:
 		sudo nano /etc/logstash/conf.d/winlogbeat.conf
+
+
 
 8. Add the following Logstash configuration:
 		input {
@@ -62,8 +76,11 @@ output {
 }
 
 
+
 9. Restart Logstash
 		sudo systemctl restart logstash
+
+
 
 
 10. Verify Data in Kibana
@@ -73,12 +90,21 @@ output {
 		Open Discover and check incoming logs.	
 
 
+
+
 ✅ Troubleshooting
+
+
 
 1. Check Winlogbeat Logs on Windows Server
 	Get-Content -Path "C:\ProgramData\Winlogbeat\Logs\winlogbeat"
 
+
+
 2. Test Connection to ELK
 	Test-NetConnection -ComputerName <ELK-SERVER-IP> -Port 9200
-3. Check Logstash Logs (If Used)
+
+
+
+4. Check Logstash Logs (If Used)
 	sudo journalctl -u logstash --no-pager --since "5 minutes ago"
