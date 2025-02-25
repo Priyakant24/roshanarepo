@@ -71,3 +71,14 @@ output {
 		Navigate to Stack Management → Index Patterns.
 		Create a new pattern for winlogbeat-*.
 		Open Discover and check incoming logs.	
+
+
+✅ Troubleshooting
+
+1. Check Winlogbeat Logs on Windows Server
+	Get-Content -Path "C:\ProgramData\Winlogbeat\Logs\winlogbeat"
+
+2. Test Connection to ELK
+	Test-NetConnection -ComputerName <ELK-SERVER-IP> -Port 9200
+3. Check Logstash Logs (If Used)
+	sudo journalctl -u logstash --no-pager --since "5 minutes ago"
